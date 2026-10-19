@@ -1,0 +1,24 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "search-gateway-client"
+version = "0.1.0"
+description = "Python client for Search Gateway: unified AI search and source content retrieval"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+authors = [{name = "Alvaro Villalba"}]
+keywords = ["ai", "search", "gateway", "sdk"]
+classifiers = ["Programming Language :: Python :: 3", "Typing :: Typed"]
+
+[project.urls]
+Repository = "https://github.com/alvarovillalbaa/search-gateway"
+Issues = "https://github.com/alvarovillalbaa/search-gateway/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["search_gateway"]
+
+[tool.hatch.build.targets.sdist]
+include = ["search_gateway", "README.md", "LICENSE", "pyproject.toml"]

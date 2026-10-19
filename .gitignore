@@ -1,0 +1,14 @@
+node_modules/
+dist/
+*.tgz
+*.whl
+*.egg-info/
+__pycache__/
+.venv/
+.env
+.env.*
+!.env.example
+.search-gateway/
+coverage/
+tests/tmp/
+.DS_Store

@@ -1,0 +1,1166 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Search Gateway",
+    "version": "0.1.0",
+    "description": "Self-hosted AI search. See API.md for policy semantics and provider-specific limits.",
+    "license": {
+      "name": "MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:8787"
+    }
+  ],
+  "security": [
+    {
+      "GatewayKey": []
+    }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Public health check",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Healthy process",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "const": "ok"
+                    },
+                    "version": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "version"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/search": {
+      "post": {
+        "summary": "Search enabled providers",
+        "operationId": "search",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation, possibly with partial results and warnings",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Gateway error; see API.md for codes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Gateway error; see API.md for codes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Gateway error; see API.md for codes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Gateway error; see API.md for codes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Gateway error; see API.md for codes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Gateway error; see API.md for codes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Gateway error; see API.md for codes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Gateway error; see API.md for codes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "Gateway error; see API.md for codes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/contents": {
+      "post": {
+        "summary": "Retrieve page text for public URLs",
+        "operationId": "contents",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContentsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation, possibly with partial results and warnings",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContentsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Gateway error; see API.md for codes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Gateway error; see API.md for codes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Gateway error; see API.md for codes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Gateway error; see API.md for codes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Gateway error; see API.md for codes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Gateway error; see API.md for codes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Gateway error; see API.md for codes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Gateway error; see API.md for codes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "Gateway error; see API.md for codes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/providers": {
+      "get": {
+        "summary": "List providers in the gateway key scope",
+        "responses": {
+          "200": {
+            "description": "Provider catalog",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "providers": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ProviderInfo"
+                      }
+                    }
+                  },
+                  "required": [
+                    "providers"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Gateway error; see API.md for codes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "GatewayKey": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
+    "schemas": {
+      "SearchRequest": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 8000
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "auto",
+              "single",
+              "parallel",
+              "fallback"
+            ],
+            "default": "auto"
+          },
+          "providers": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "exa",
+                "tavily",
+                "brave",
+                "serper",
+                "serpapi",
+                "you",
+                "perplexity",
+                "openai",
+                "parallel",
+                "firecrawl",
+                "jina",
+                "linkup",
+                "happenstance"
+              ]
+            },
+            "minItems": 1,
+            "maxItems": 13
+          },
+          "excludeProviders": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "exa",
+                "tavily",
+                "brave",
+                "serper",
+                "serpapi",
+                "you",
+                "perplexity",
+                "openai",
+                "parallel",
+                "firecrawl",
+                "jina",
+                "linkup",
+                "happenstance"
+              ]
+            }
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 50,
+            "default": 10
+          },
+          "maxProviders": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5,
+            "default": 2
+          },
+          "content": {
+            "type": "string",
+            "enum": [
+              "none",
+              "text"
+            ],
+            "default": "none"
+          },
+          "maxContentChars": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100000,
+            "default": 12000
+          },
+          "fetchMissingContent": {
+            "type": "boolean",
+            "default": true
+          },
+          "includeDomains": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 100
+          },
+          "excludeDomains": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 100
+          },
+          "timeoutMs": {
+            "type": "integer",
+            "minimum": 100,
+            "maximum": 120000,
+            "default": 20000
+          },
+          "providerOptions": {
+            "type": "object",
+            "properties": {
+              "exa": {
+                "type": "object",
+                "additionalProperties": true
+              },
+              "tavily": {
+                "type": "object",
+                "additionalProperties": true
+              },
+              "brave": {
+                "type": "object",
+                "additionalProperties": true
+              },
+              "serper": {
+                "type": "object",
+                "additionalProperties": true
+              },
+              "serpapi": {
+                "type": "object",
+                "additionalProperties": true
+              },
+              "you": {
+                "type": "object",
+                "additionalProperties": true
+              },
+              "perplexity": {
+                "type": "object",
+                "additionalProperties": true
+              },
+              "openai": {
+                "type": "object",
+                "additionalProperties": true
+              },
+              "parallel": {
+                "type": "object",
+                "additionalProperties": true
+              },
+              "firecrawl": {
+                "type": "object",
+                "additionalProperties": true
+              },
+              "jina": {
+                "type": "object",
+                "additionalProperties": true
+              },
+              "linkup": {
+                "type": "object",
+                "additionalProperties": true
+              },
+              "happenstance": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            },
+            "additionalProperties": false
+          },
+          "providerKeys": {
+            "type": "object",
+            "properties": {
+              "exa": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4096,
+                "writeOnly": true
+              },
+              "tavily": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4096,
+                "writeOnly": true
+              },
+              "brave": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4096,
+                "writeOnly": true
+              },
+              "serper": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4096,
+                "writeOnly": true
+              },
+              "serpapi": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4096,
+                "writeOnly": true
+              },
+              "you": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4096,
+                "writeOnly": true
+              },
+              "perplexity": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4096,
+                "writeOnly": true
+              },
+              "openai": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4096,
+                "writeOnly": true
+              },
+              "parallel": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4096,
+                "writeOnly": true
+              },
+              "firecrawl": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4096,
+                "writeOnly": true
+              },
+              "jina": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4096,
+                "writeOnly": true
+              },
+              "linkup": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4096,
+                "writeOnly": true
+              },
+              "happenstance": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4096,
+                "writeOnly": true
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "additionalProperties": false
+      },
+      "ContentsRequest": {
+        "type": "object",
+        "properties": {
+          "urls": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            },
+            "minItems": 1,
+            "maxItems": 20
+          },
+          "provider": {
+            "type": "string",
+            "enum": [
+              "exa",
+              "tavily",
+              "brave",
+              "serper",
+              "serpapi",
+              "you",
+              "perplexity",
+              "openai",
+              "parallel",
+              "firecrawl",
+              "jina",
+              "linkup",
+              "happenstance"
+            ]
+          },
+          "maxContentChars": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100000,
+            "default": 12000
+          },
+          "timeoutMs": {
+            "type": "integer",
+            "minimum": 100,
+            "maximum": 120000,
+            "default": 20000
+          },
+          "providerKeys": {
+            "type": "object",
+            "properties": {
+              "exa": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4096,
+                "writeOnly": true
+              },
+              "tavily": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4096,
+                "writeOnly": true
+              },
+              "brave": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4096,
+                "writeOnly": true
+              },
+              "serper": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4096,
+                "writeOnly": true
+              },
+              "serpapi": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4096,
+                "writeOnly": true
+              },
+              "you": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4096,
+                "writeOnly": true
+              },
+              "perplexity": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4096,
+                "writeOnly": true
+              },
+              "openai": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4096,
+                "writeOnly": true
+              },
+              "parallel": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4096,
+                "writeOnly": true
+              },
+              "firecrawl": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4096,
+                "writeOnly": true
+              },
+              "jina": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4096,
+                "writeOnly": true
+              },
+              "linkup": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4096,
+                "writeOnly": true
+              },
+              "happenstance": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4096,
+                "writeOnly": true
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "urls"
+        ],
+        "additionalProperties": false
+      },
+      "Source": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "title": {
+            "type": "string"
+          },
+          "snippet": {
+            "type": "string"
+          },
+          "providers": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "exa",
+                "tavily",
+                "brave",
+                "serper",
+                "serpapi",
+                "you",
+                "perplexity",
+                "openai",
+                "parallel",
+                "firecrawl",
+                "jina",
+                "linkup",
+                "happenstance"
+              ]
+            }
+          },
+          "rank": {
+            "type": "integer"
+          },
+          "publishedAt": {
+            "type": "string"
+          },
+          "content": {
+            "$ref": "#/components/schemas/SourceContent"
+          }
+        },
+        "required": [
+          "id",
+          "url",
+          "title",
+          "snippet",
+          "providers",
+          "rank"
+        ],
+        "additionalProperties": false
+      },
+      "SourceContent": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string"
+          },
+          "format": {
+            "type": "string",
+            "enum": [
+              "text",
+              "markdown"
+            ]
+          },
+          "provider": {
+            "type": "string",
+            "enum": [
+              "exa",
+              "tavily",
+              "brave",
+              "serper",
+              "serpapi",
+              "you",
+              "perplexity",
+              "openai",
+              "parallel",
+              "firecrawl",
+              "jina",
+              "linkup",
+              "happenstance"
+            ]
+          },
+          "truncated": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "text",
+          "format",
+          "provider",
+          "truncated"
+        ],
+        "additionalProperties": false
+      },
+      "ProviderError": {
+        "type": "object",
+        "properties": {
+          "provider": {
+            "type": "string",
+            "enum": [
+              "exa",
+              "tavily",
+              "brave",
+              "serper",
+              "serpapi",
+              "you",
+              "perplexity",
+              "openai",
+              "parallel",
+              "firecrawl",
+              "jina",
+              "linkup",
+              "happenstance",
+              "jev",
+              "openai-decisions"
+            ]
+          },
+          "operation": {
+            "type": "string",
+            "enum": [
+              "search",
+              "contents",
+              "routing"
+            ]
+          },
+          "code": {
+            "type": "string"
+          },
+          "retryable": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "provider",
+          "operation",
+          "code",
+          "retryable"
+        ],
+        "additionalProperties": false
+      },
+      "RoutingDecision": {
+        "type": "object",
+        "properties": {
+          "router": {
+            "type": "string",
+            "enum": [
+              "jev",
+              "openai-decisions",
+              "rules",
+              "custom",
+              "explicit"
+            ]
+          },
+          "providers": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "exa",
+                "tavily",
+                "brave",
+                "serper",
+                "serpapi",
+                "you",
+                "perplexity",
+                "openai",
+                "parallel",
+                "firecrawl",
+                "jina",
+                "linkup",
+                "happenstance"
+              ]
+            }
+          },
+          "reason": {
+            "type": "string"
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        },
+        "required": [
+          "router",
+          "providers",
+          "reason"
+        ],
+        "additionalProperties": false
+      },
+      "Attempt": {
+        "type": "object",
+        "properties": {
+          "provider": {
+            "type": "string",
+            "enum": [
+              "exa",
+              "tavily",
+              "brave",
+              "serper",
+              "serpapi",
+              "you",
+              "perplexity",
+              "openai",
+              "parallel",
+              "firecrawl",
+              "jina",
+              "linkup",
+              "happenstance"
+            ]
+          },
+          "operation": {
+            "type": "string",
+            "enum": [
+              "search",
+              "contents"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "ok",
+              "error"
+            ]
+          },
+          "elapsedMs": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "provider",
+          "operation",
+          "status",
+          "elapsedMs"
+        ],
+        "additionalProperties": false
+      },
+      "SearchResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "query": {
+            "type": "string"
+          },
+          "sources": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Source"
+            }
+          },
+          "answers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "provider": {
+                  "type": "string",
+                  "enum": [
+                    "exa",
+                    "tavily",
+                    "brave",
+                    "serper",
+                    "serpapi",
+                    "you",
+                    "perplexity",
+                    "openai",
+                    "parallel",
+                    "firecrawl",
+                    "jina",
+                    "linkup",
+                    "happenstance"
+                  ]
+                },
+                "text": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "provider",
+                "text"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "routing": {
+            "$ref": "#/components/schemas/RoutingDecision"
+          },
+          "attempts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Attempt"
+            }
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProviderError"
+            }
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "elapsedMs": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "id",
+          "query",
+          "sources",
+          "answers",
+          "routing",
+          "attempts",
+          "errors",
+          "warnings",
+          "elapsedMs"
+        ],
+        "additionalProperties": false
+      },
+      "ContentsResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "sources": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Source"
+            }
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProviderError"
+            }
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "elapsedMs": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "id",
+          "sources",
+          "errors",
+          "warnings",
+          "elapsedMs"
+        ],
+        "additionalProperties": false
+      },
+      "ProviderInfo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "enum": [
+              "exa",
+              "tavily",
+              "brave",
+              "serper",
+              "serpapi",
+              "you",
+              "perplexity",
+              "openai",
+              "parallel",
+              "firecrawl",
+              "jina",
+              "linkup",
+              "happenstance"
+            ]
+          },
+          "description": {
+            "type": "string"
+          },
+          "contents": {
+            "type": "boolean"
+          },
+          "configured": {
+            "type": "boolean"
+          },
+          "enabled": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "description",
+          "contents",
+          "configured",
+          "enabled"
+        ],
+        "additionalProperties": false
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "code",
+              "message"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "error"
+        ],
+        "additionalProperties": false
+      }
+    }
+  }
+}

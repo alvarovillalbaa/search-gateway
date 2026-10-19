@@ -1,0 +1,12 @@
+{
+  "enabledProviders": ["exa", "tavily", "perplexity", "parallel", "firecrawl", "happenstance"],
+  "defaults": {"mode": "auto", "limit": 10, "maxProviders": 2, "content": "none", "timeoutMs": 30000},
+  "router": {
+    "minConfidence": 0.55,
+    "timeoutMs": 2500,
+    "rules": [
+      {"contains": ["official documentation"], "providers": ["exa", "tavily"]},
+      {"contains": ["my network", "warm introduction"], "providers": ["happenstance"]}
+    ]
+  }
+}

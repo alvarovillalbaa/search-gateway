@@ -1,0 +1,28 @@
+{
+  "name": "search-gateway-workspace",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "tsc -p packages/search-gateway/tsconfig.json",
+    "check": "tsc -p packages/search-gateway/tsconfig.json --noEmit",
+    "test": "npm run build && node --test tests/unit/*.test.mjs tests/integration/*.test.mjs tests/adversarial/*.test.mjs",
+    "test:python": "PYTHONPATH=python python3 -m unittest discover -s tests/unit/python -v",
+    "demo": "npm run build && node examples/demo.mjs",
+    "schema": "npm run build && node scripts/generate-openapi.mjs",
+    "verify:artifacts": "node scripts/verify-artifacts.mjs",
+    "pack:sdk": "npm pack --workspace @alvarovillalbaa/search-gateway"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "jsdom": "^30.1.3",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "typescript": "^7.0.2"
+  }
+}
