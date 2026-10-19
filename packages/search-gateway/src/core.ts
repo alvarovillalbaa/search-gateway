@@ -41,13 +41,23 @@ function mergeSources(groups: Source[][], limit: number): Source[] {
 function errorRecord(error: unknown, provider: ProviderId, operation: "search" | "contents"): ProviderError {
   return {provider, operation, code: error instanceof GatewayError ? error.code : "provider_error", retryable: error instanceof UpstreamError ? error.retryable : false};
 }
-async function bounded<T>(promise: Promise<T>, signal: AbortSignal): Promise<T> {
+async function bounded<T>(operation: () => Promise<T>, signal: AbortSignal): Promise<T> {
   if (signal.aborted) throw new GatewayError("timeout_or_cancelled", "Search deadline exceeded or caller cancelled", 504);
   return new Promise<T>((resolve, reject) => {
     const abort = () => reject(new GatewayError("timeout_or_cancelled", "Search deadline exceeded or caller cancelled", 504));
     signal.addEventListener("abort", abort, {once: true});
-    promise.then(resolve, reject).finally(() => signal.removeEventListener("abort", abort));
+    Promise.resolve().then(() => {
+      if (signal.aborted) throw new GatewayError("timeout_or_cancelled", "Search deadline exceeded or caller cancelled", 504);
+      return operation();
+    }).then(resolve, reject).finally(() => signal.removeEventListener("abort", abort));
   });
+}
+async function withDeadline<T>(timeoutMs: number, external: AbortSignal | undefined, operation: (signal: AbortSignal) => Promise<T>): Promise<T> {
+  const controller = new AbortController();
+  // A referenced timer keeps CLI/in-process calls alive even when a custom adapter has no active I/O.
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  const signal = external ? AbortSignal.any([controller.signal, external]) : controller.signal;
+  try { return await operation(signal); } finally { clearTimeout(timer); }
 }
 export function createSearchGateway(config: GatewayOptions = {}) {
   const adapters = config.adapters ?? builtinProviders;
@@ -65,7 +75,7 @@ export function createSearchGateway(config: GatewayOptions = {}) {
       const start = Date.now();
       try {
         const remaining = request.urls.filter(url => !collected.has(url));
-        const data = await bounded(provider.contents!(remaining, request.maxContentChars ?? 12_000, {key: k[provider.id]!, fetch: fetcher, signal}), signal);
+        const data = await bounded(() => provider.contents!(remaining, request.maxContentChars ?? 12_000, {key: k[provider.id]!, fetch: fetcher, signal}), signal);
         const wanted = new Set(request.urls);
         const sources = data.sources.map((s, i) => normalize(s, provider.id, i + 1, {content: "text", maxContentChars: request.maxContentChars})).filter((s): s is Source => !!s && wanted.has(s.url) && !!s.content);
         attempts.push({provider: provider.id, operation: "contents", status: "ok", elapsedMs: Date.now() - start});
@@ -84,19 +94,19 @@ export function createSearchGateway(config: GatewayOptions = {}) {
       const defined = (value: object) => Object.fromEntries(Object.entries(value).filter(([, v]) => v !== undefined));
       const request = validateSearch({...PRESETS.balanced, ...defined(config.defaults ?? {}), ...defined(input)});
       const start = Date.now(); const errors: ProviderError[] = []; const attempts: Attempt[] = []; const warnings: string[] = [];
-      const signal = AbortSignal.any([AbortSignal.timeout(request.timeoutMs!), ...(opts.signal ? [opts.signal] : [])]);
+      return withDeadline(request.timeoutMs!, opts.signal, async signal => {
       const all = available(request.providerKeys).filter(p => !request.excludeProviders?.includes(p.id));
       const candidates = request.providers ? [...new Set(request.providers)].map(id => {
         const p = all.find(p => p.id === id); if (!p) throw new GatewayError("provider_unavailable", `${id} is disabled or lacks a key`, 503); return p;
       }) : all;
       if (!candidates.length) throw new GatewayError("no_providers", "No enabled provider has credentials", 503);
-      const routing = await bounded(route(request, candidates, config.router ?? {}, fetcher, signal, errors), signal);
+      const routing = await bounded(() => route(request, candidates, config.router ?? {}, fetcher, signal, errors), signal);
       const selected = routing.providers.map(id => candidates.find(p => p.id === id)!);
       const k = keys(request.providerKeys); const answers: SearchResponse["answers"] = [];
       const run = async (p: SearchProvider) => {
         const t = Date.now();
         try {
-          const data: ProviderResult = await bounded(p.search(request, {key: k[p.id]!, fetch: fetcher, signal}), signal);
+          const data: ProviderResult = await bounded(() => p.search(request, {key: k[p.id]!, fetch: fetcher, signal}), signal);
           const sources = data.sources.map((s, i) => normalize(s, p.id, i + 1, request)).filter((s): s is Source => !!s && domainAllowed(s.url, request.includeDomains, request.excludeDomains));
           // Answers cannot be safely post-filtered to domain policies. Only expose source records in that case.
           if (data.answer && !request.includeDomains?.length && !request.excludeDomains?.length) answers.push({provider: p.id, text: data.answer.slice(0, 100_000)});
@@ -121,13 +131,15 @@ export function createSearchGateway(config: GatewayOptions = {}) {
       if (errors.length) warnings.push("Some provider operations failed; available results are returned");
       if (signal.aborted) warnings.push("The deadline or cancellation interrupted some operations");
       return {id: randomUUID(), query: request.query, sources, answers, routing, attempts, errors, warnings, elapsedMs: Date.now() - start};
+      });
     },
     async contents(input: ContentsRequest, opts: {signal?: AbortSignal} = {}): Promise<ContentsResponse> {
       const request = validateContents(input); const start = Date.now(); const errors: ProviderError[] = []; const attempts: Attempt[] = [];
-      const signal = AbortSignal.any([AbortSignal.timeout(request.timeoutMs ?? 20_000), ...(opts.signal ? [opts.signal] : [])]);
+      return withDeadline(request.timeoutMs ?? 20_000, opts.signal, async signal => {
       const sources = await extract(request, signal, available(request.providerKeys), errors, attempts);
       if (!sources.length && errors.length) throw new GatewayError("all_providers_failed", "Content retrieval failed", signal.aborted ? 504 : 502);
       return {id: randomUUID(), sources: mergeSources([sources], 20), errors, warnings: request.urls.filter(u => !sources.some(s => s.url === u)).map(u => `No page content returned for ${u}`), elapsedMs: Date.now() - start};
+      });
     },
   };
 }

@@ -54,3 +54,10 @@ test('custom routing and configured keyword rules honor candidate availability',
   const bad = createSearchGateway({...base, router: {decide: () => ['brave']}});
   await assert.rejects(bad.search({query: 'x'}), {code: 'invalid_route'});
 });
+test('a request cancelled before dispatch never invokes an adapter', async () => {
+  let calls = 0;
+  const g = createSearchGateway({providerKeys: {exa: 'm'}, adapters: [{...fakeProvider('exa'), search: async () => {calls++; return {sources: []};}}]});
+  const controller = new AbortController(); controller.abort();
+  await assert.rejects(g.search({query: 'x'}, {signal: controller.signal}), {code: 'timeout_or_cancelled'});
+  assert.equal(calls, 0);
+});

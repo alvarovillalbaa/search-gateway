@@ -24,7 +24,7 @@ Version: 0.1.0. The initial delivery includes source, an npm tarball, and a Pyth
 ## Local proof
 
 - `npm run check`: strict TypeScript compilation passed.
-- `npm test`: 49 checks passed, using fabricated T2 provider data and loopback HTTP.
+- `npm test`: 50 checks, using fabricated T2 provider data and loopback HTTP, including idle-process deadline and pre-dispatch cancellation regressions.
 - `npm run test:python`: 5 checks passed.
 - `npm run demo`: credential-free fabricated search/tool result passed.
 - `npm run schema`: OpenAPI generated from the provider registry and wire fields.
