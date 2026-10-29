@@ -22,4 +22,10 @@ Entry points:
 
 For HTTP usage, create a key locally with `search-gateway key create`, set upstream provider environment variables, then run `search-gateway serve`. Applications use the single gateway key. The gateway is self-hosted; upstream accounts and billing remain yours.
 
+The React hook resets visible state when its client changes and scopes pending
+requests and cancellation to that client. Same-client searches retain the last
+result while loading. The client-replacement repair is source-only; existing
+v0.1.0 release artifacts were not rebuilt. See the
+[focused evidence](https://github.com/alvarovillalbaa/search-gateway/blob/main/docs/results/2026/10-29/react-client-ownership.md).
+
 Full setup, Python and React examples, API details, provider capability table and verification boundaries are in the [repository documentation](https://github.com/alvarovillalbaa/search-gateway#readme).

@@ -1,0 +1,376 @@
+{
+  "schema_version": 1,
+  "kind": "search-gateway.react-client-ownership",
+  "recorded_at_utc": "2026-10-29T21:34:00.521690+00:00",
+  "base_commit": "f891c1378ca20fb90e007d9dc9610aa4740dfc45",
+  "source_files": [
+    {
+      "path": "packages/search-gateway/src/react.ts",
+      "bytes": 2816,
+      "sha256": "7a2d02421dfee4b2e8d892dd00c2ac1a4f42ded17dc98346733479fd0ec3ed83"
+    },
+    {
+      "path": "tests/unit/react-client-ownership.test.mjs",
+      "bytes": 12584,
+      "sha256": "a2d2b398f7c3d5dab1d004ddc9ec1fc7cdd6df308ff669330876273dfcb49731"
+    }
+  ],
+  "protected_unchanged_files": [
+    {
+      "path": ".env.example",
+      "sha256": "fc99760b71a082d9fca7fd1a76f3e9435813924a11444d6ae4fc91d345944743"
+    },
+    {
+      "path": ".github/workflows/check.yml",
+      "sha256": "e8723e8634666e48e6cecbdcf940e0558f6af3c07202a01d037de5ac6ac9e6f4"
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "4e3cdc322fc95d8c1cd717c3ecca1efcfc45380f598f7afc59d2b1f55feff8a8"
+    },
+    {
+      "path": "AGENTS.md",
+      "sha256": "b3de3b98dd87e1085ad0c7f3c69e49b8617135e3084e08695a00e87a1911fb1a"
+    },
+    {
+      "path": "API.md",
+      "sha256": "9bce944d93b259277d4f739f8298efcca05fe99cb1b408ceb074b673acacc14f"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "sha256": "26dea30a7a6b5baaf7cf24fd04af65883b0ae7a95833b139009870a7ed5aa40b"
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "7edafcd8ebca4ecabedfad6e3c3d4872ce0ef6b49c3658a8b6e644cfb884d32d"
+    },
+    {
+      "path": "PROVIDERS.md",
+      "sha256": "45ede44204c01a05e325237a4a094c5d625dc1ab678f0d7bf9034d6ab5599855"
+    },
+    {
+      "path": "RELEASE.md",
+      "sha256": "c82b167e3173d729ac891bbeedbd329e1b53b4dfcf6e8820f71543d05cfa5589"
+    },
+    {
+      "path": "SECURITY.md",
+      "sha256": "b6a80dd35d741c0119ae621d550239d30d61c10b9480d1955f0f9e21985a23dc"
+    },
+    {
+      "path": "examples/demo.mjs",
+      "sha256": "4799923ee9552200b3cd0fbde1e95a7772da9d047187d129dd0c8bb71879a15b"
+    },
+    {
+      "path": "examples/gateway.json",
+      "sha256": "b76d42aa5f5d0f5d6c7316b571783e2f9b4f761726bd9ec5dd839b94cc14f2b4"
+    },
+    {
+      "path": "openapi.json",
+      "sha256": "c39059225dac125f625512038bc64c50c317140b14396711b2a6c311dbdd0ba1"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "85b811ecc4dcd591f335c8e5e82c8248573bda1423daf6fa2d2bd36faed26e81"
+    },
+    {
+      "path": "package.json",
+      "sha256": "dcc4e756e4f21e5f9e3bbfa4a5ac59ad0cea437356dac91bb2d5c6b258f1d1a9"
+    },
+    {
+      "path": "packages/search-gateway/LICENSE",
+      "sha256": "7edafcd8ebca4ecabedfad6e3c3d4872ce0ef6b49c3658a8b6e644cfb884d32d"
+    },
+    {
+      "path": "packages/search-gateway/package.json",
+      "sha256": "1685eed43a3955a1c6f525a188c3317bae57bcaf6260cf536be07f700ff2ef6f"
+    },
+    {
+      "path": "packages/search-gateway/src/cli.ts",
+      "sha256": "6136c79dc477d1585f73a719afde86c51b2a6191a7d36f5e470e7d775cb9ec40"
+    },
+    {
+      "path": "packages/search-gateway/src/core.ts",
+      "sha256": "27bc563cd8b7e7b4dbeff132863331857b773297ed3722abf79ef9a931662f0a"
+    },
+    {
+      "path": "packages/search-gateway/src/http.ts",
+      "sha256": "4d62fa97f5d0458757eb3f41a47018dc48fff44146e2a99a5de55196ec613619"
+    },
+    {
+      "path": "packages/search-gateway/src/index.ts",
+      "sha256": "4065c1ac24f2c442fc567dc5084521ccc235426a5fdcd21a7485ca1b24bf02b7"
+    },
+    {
+      "path": "packages/search-gateway/src/keys.ts",
+      "sha256": "c6799e8ad65a932507714e9e5bcacaaca66f79d111e080a595e6b39b08a7183f"
+    },
+    {
+      "path": "packages/search-gateway/src/providers.ts",
+      "sha256": "8630d9d05f8e1d1170bfc7f6af5c8a519548c2de72032f66b023edd2457914da"
+    },
+    {
+      "path": "packages/search-gateway/src/routing.ts",
+      "sha256": "623426e61d30c1d77e5d8cac532f168102d9635d17c8a348781c27271c5af64d"
+    },
+    {
+      "path": "packages/search-gateway/src/server.ts",
+      "sha256": "e3f8e58264e23178c916bb82092a0ee238beeb1b01a34be98a7782004a981a57"
+    },
+    {
+      "path": "packages/search-gateway/src/tools.ts",
+      "sha256": "738d501f07ee898b317a0c4986a90600ff30541d1f8d778c27aa8e5ccdf620bd"
+    },
+    {
+      "path": "packages/search-gateway/src/types.ts",
+      "sha256": "507bc8b96e54a5b38708ad53efbfb757a5e226709bd9770f2234042a31a6f062"
+    },
+    {
+      "path": "packages/search-gateway/src/validation.ts",
+      "sha256": "4dd948b30816e837fa1c400204e0a481b1be692098f1c894815a1d112c9e44bc"
+    },
+    {
+      "path": "packages/search-gateway/tsconfig.json",
+      "sha256": "6fb64edecfb7f91ad9cb4fb7ac4b6cddaf8cc639e38654e859d9e4bd8e10ea37"
+    },
+    {
+      "path": "python/LICENSE",
+      "sha256": "7edafcd8ebca4ecabedfad6e3c3d4872ce0ef6b49c3658a8b6e644cfb884d32d"
+    },
+    {
+      "path": "python/README.md",
+      "sha256": "a95eae2afe1986401fa98b40f68716d792949b20d026fa40bff55de1c63f71ee"
+    },
+    {
+      "path": "python/pyproject.toml",
+      "sha256": "0847a775b68a890881bdd7bfc2fab9578bbff1b870aaaa3f6d3d73e730fa12ea"
+    },
+    {
+      "path": "python/search_gateway/__init__.py",
+      "sha256": "b00ffefb6536feced6634abac61255fe8d72194b40fde0e08b80285c08fb1c90"
+    },
+    {
+      "path": "python/search_gateway/client.py",
+      "sha256": "36dcaa808f44b1b4a197126763977c65976a08a6331cf0eaf22068742573bed1"
+    },
+    {
+      "path": "python/search_gateway/py.typed",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "python/search_gateway/tools.py",
+      "sha256": "a655f0e59a04fcead88fdfa8f3193831808e0baecb978e66bd004101c30bef6a"
+    },
+    {
+      "path": "python/search_gateway/types.py",
+      "sha256": "09040fc77e822460a16f3010b11ed2216c4c91cbf412f4fb769a695e9399555d"
+    },
+    {
+      "path": "scripts/generate-openapi.mjs",
+      "sha256": "6de486b48d70fdc2f5d8908978467c4dae9eac59870cb8ea120e2699e689ebdf"
+    },
+    {
+      "path": "scripts/verify-artifacts.mjs",
+      "sha256": "ded8c26d7e8e090d5f4afebb9983871cc9c44f757637fee8dde827961a6c51f7"
+    },
+    {
+      "path": "tests/adversarial/boundaries.test.mjs",
+      "sha256": "fe8a0df74ec4d9f4270174d7e5649909fc10e2c1f796d2956bc246a5ac78d5ee"
+    },
+    {
+      "path": "tests/helpers/mock.mjs",
+      "sha256": "dcfc13a8c88ed12727b329be31d1ccdd1718c30bdd5d7546f1a0b38e8d2f64db"
+    },
+    {
+      "path": "tests/integration/gateway.test.mjs",
+      "sha256": "b52bc073ad8135bf17a657148fb89024e90a91fca3d46a491d6740d6d2f91c5c"
+    },
+    {
+      "path": "tests/unit/core.test.mjs",
+      "sha256": "132b64043a79e0b3fbd5d113bb64347986679706a376b97dacb573c7c41fea51"
+    },
+    {
+      "path": "tests/unit/keys.test.mjs",
+      "sha256": "02e85f9dd91f1d1d3ad95815a0ad4e438b3935b17b1c394f25fa5e02da6c2d8b"
+    },
+    {
+      "path": "tests/unit/providers.test.mjs",
+      "sha256": "47a8d7aa5b4f92e4205a35cbf1752674ee582c7d1b05b7a7b61934b37dcb4e7b"
+    },
+    {
+      "path": "tests/unit/python/test_client.py",
+      "sha256": "0926d259a1175b9c326f394672efdcaee783b2858bb048a6d413c4ae738be14a"
+    },
+    {
+      "path": "tests/unit/react.test.mjs",
+      "sha256": "007a22b23ad0be84cf84fa552489ceb585ce55f0642c8068822ed5b54eacde90"
+    },
+    {
+      "path": "tests/unit/routing.test.mjs",
+      "sha256": "ae096989733076d71b23749f15b007f5e841b37ff45c0cc830efd4417bbfa878"
+    }
+  ],
+  "case_names": [
+    "client replacement clears pending loading and permits a new search",
+    "client replacement hides prior data and errors on every render of the new client",
+    "late rejection from the old client cannot change new client data error or loading",
+    "a retained old cancel callback cannot stop the new client request",
+    "new client work started in a child layout effect survives old passive cleanup",
+    "StrictMode replay and unmount abort only their own pending requests",
+    "same client keeps settled data while only the newest overlapping search can publish",
+    "explicit cancellation preserves settled data rejects stale state and permits retry",
+    "synchronous abort reentry keeps the newest search and prevents superseded dispatch",
+    "synchronous abort reentry during cancel cannot clear a newly started search"
+  ],
+  "runtime": {
+    "node": "v26.8.2",
+    "react_fixture": {
+      "mode": "existing_read_only",
+      "owner": "alvarovillalbaa/search-gateway",
+      "dependency_snapshot": "f891c1378ca20fb90e007d9dc9610aa4740dfc45",
+      "package_lock_sha256": "85b811ecc4dcd591f335c8e5e82c8248573bda1423daf6fa2d2bd36faed26e81",
+      "packages": [
+        {
+          "name": "react",
+          "version": "19.3.1",
+          "package_json_sha256": "9cc9c3de5441a2eea7f41f52f3f2a15a4fc51f90c0b72741f0d7638643a85e67"
+        },
+        {
+          "name": "react-dom",
+          "version": "19.3.1",
+          "package_json_sha256": "89d54f11575c9b0f7819962d9d72a31970dfb4d103f07e8b1d1b37e6d1fc3258"
+        },
+        {
+          "name": "jsdom",
+          "version": "30.1.3",
+          "package_json_sha256": "d05b7f08c60feb43d726447adf6f8eaec18913a8f0fe8cbd7e3af06f7c8510ba"
+        },
+        {
+          "name": "typescript",
+          "version": "7.0.2",
+          "package_json_sha256": "3722b30210616a13a3213ded11575ba6b2dbab10c32a5ef67afca8513e27017e"
+        }
+      ]
+    },
+    "product_import": "actual TypeScript hook source via native Node type stripping; no dist output"
+  },
+  "baseline": {
+    "process_exit": 1,
+    "status": "expected_failure",
+    "source_sha256": "b24c763064252dd4231ff3f72fa5767ab0b99c17ae561945f1be361c12add550",
+    "bytes": 1191,
+    "sha256": "1dae2d6badd603125f33b757bc265cc0ee958ebf09e9e4987a5f9c9919283563",
+    "cases": [
+      {
+        "status": "not ok",
+        "number": 1,
+        "name": "client replacement clears pending loading and permits a new search"
+      }
+    ],
+    "totals": {
+      "tests": 1,
+      "pass": 0,
+      "fail": 1,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "normalized_tap": "TAP version 13\n# Subtest: client replacement clears pending loading and permits a new search\nnot ok 1 - client replacement clears pending loading and permits a new search\n  ---\n  duration_ms: 91.823625\n  type: 'test'\n  location: '<repo>/tests/unit/react-client-ownership.test.mjs:84:1'\n  failureType: 'testCodeFailure'\n  error: |-\n    Expected values to be strictly equal:\n    \n    true !== false\n    \n  code: 'ERR_ASSERTION'\n  name: 'AssertionError'\n  expected: false\n  actual: true\n  operator: 'strictEqual'\n  stack: |-\n    file://<repo>/tests/unit/react-client-ownership.test.mjs:91:12\n    async mounted (file://<repo>/tests/unit/react-client-ownership.test.mjs:73:5)\n    async TestContext.<anonymous> (file://<repo>/tests/unit/react-client-ownership.test.mjs:85:3)\n    async Test.run (node:internal/test_runner/test:1409:7)\n    async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)\n  ...\n1..1\n# tests 1\n# suites 0\n# pass 0\n# fail 1\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 954.9125\n"
+  },
+  "patched": {
+    "process_exit": 0,
+    "status": "passed",
+    "bytes": 2351,
+    "sha256": "5a1adedc9b1e3560839c9382a35b16bd136f2c210a5e9e8a82469dd9c324fe9a",
+    "cases": [
+      {
+        "status": "ok",
+        "number": 1,
+        "name": "client replacement clears pending loading and permits a new search"
+      },
+      {
+        "status": "ok",
+        "number": 2,
+        "name": "client replacement hides prior data and errors on every render of the new client"
+      },
+      {
+        "status": "ok",
+        "number": 3,
+        "name": "late rejection from the old client cannot change new client data error or loading"
+      },
+      {
+        "status": "ok",
+        "number": 4,
+        "name": "a retained old cancel callback cannot stop the new client request"
+      },
+      {
+        "status": "ok",
+        "number": 5,
+        "name": "new client work started in a child layout effect survives old passive cleanup"
+      },
+      {
+        "status": "ok",
+        "number": 6,
+        "name": "StrictMode replay and unmount abort only their own pending requests"
+      },
+      {
+        "status": "ok",
+        "number": 7,
+        "name": "same client keeps settled data while only the newest overlapping search can publish"
+      },
+      {
+        "status": "ok",
+        "number": 8,
+        "name": "explicit cancellation preserves settled data rejects stale state and permits retry"
+      },
+      {
+        "status": "ok",
+        "number": 9,
+        "name": "synchronous abort reentry keeps the newest search and prevents superseded dispatch"
+      },
+      {
+        "status": "ok",
+        "number": 10,
+        "name": "synchronous abort reentry during cancel cannot clear a newly started search"
+      }
+    ],
+    "totals": {
+      "tests": 10,
+      "pass": 10,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "normalized_tap": "TAP version 13\n# Subtest: client replacement clears pending loading and permits a new search\nok 1 - client replacement clears pending loading and permits a new search\n  ---\n  duration_ms: 83.624541\n  type: 'test'\n  ...\n# Subtest: client replacement hides prior data and errors on every render of the new client\nok 2 - client replacement hides prior data and errors on every render of the new client\n  ---\n  duration_ms: 10.672625\n  type: 'test'\n  ...\n# Subtest: late rejection from the old client cannot change new client data error or loading\nok 3 - late rejection from the old client cannot change new client data error or loading\n  ---\n  duration_ms: 8.055459\n  type: 'test'\n  ...\n# Subtest: a retained old cancel callback cannot stop the new client request\nok 4 - a retained old cancel callback cannot stop the new client request\n  ---\n  duration_ms: 7.442458\n  type: 'test'\n  ...\n# Subtest: new client work started in a child layout effect survives old passive cleanup\nok 5 - new client work started in a child layout effect survives old passive cleanup\n  ---\n  duration_ms: 7.734708\n  type: 'test'\n  ...\n# Subtest: StrictMode replay and unmount abort only their own pending requests\nok 6 - StrictMode replay and unmount abort only their own pending requests\n  ---\n  duration_ms: 8.5675\n  type: 'test'\n  ...\n# Subtest: same client keeps settled data while only the newest overlapping search can publish\nok 7 - same client keeps settled data while only the newest overlapping search can publish\n  ---\n  duration_ms: 7.559125\n  type: 'test'\n  ...\n# Subtest: explicit cancellation preserves settled data rejects stale state and permits retry\nok 8 - explicit cancellation preserves settled data rejects stale state and permits retry\n  ---\n  duration_ms: 7.604958\n  type: 'test'\n  ...\n# Subtest: synchronous abort reentry keeps the newest search and prevents superseded dispatch\nok 9 - synchronous abort reentry keeps the newest search and prevents superseded dispatch\n  ---\n  duration_ms: 15.267333\n  type: 'test'\n  ...\n# Subtest: synchronous abort reentry during cancel cannot clear a newly started search\nok 10 - synchronous abort reentry during cancel cannot clear a newly started search\n  ---\n  duration_ms: 13.698208\n  type: 'test'\n  ...\n1..10\n# tests 10\n# suites 0\n# pass 10\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 895.941625\n"
+  },
+  "stderr": [
+    {
+      "phase": "baseline",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "patched",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "targeted_typecheck": {
+    "typescript": "7.0.2",
+    "no_emit": true,
+    "status": "passed",
+    "scope": "hook and its type imports only",
+    "skip_lib_check": true
+  },
+  "bounds": {
+    "node_test_timeout_ms": 15000,
+    "test_concurrency": 1,
+    "body_timeouts_ms": null
+  },
+  "limits": [
+    "Frontend ReactDOM/jsdom fixtures only; no browser engine, HTTP server, live provider, database, model call or native device.",
+    "React 19.3.1 fixture checked; no React 18 or other runtime compatibility matrix claim.",
+    "No dependency install, emitted package/app build, CI change or new release artifact.",
+    "Raw local output hashes retained; normalized TAP replaces the workspace root and contains no private local path."
+  ]
+}

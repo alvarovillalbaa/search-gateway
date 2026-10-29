@@ -167,6 +167,12 @@ Never send upstream keys or a reusable gateway secret to a browser. Use your own
 
 The optional `/react` entry point provides `useSearchGateway`: data, loading, errors, search, and cancel. It aborts superseded requests and ignores stale results.
 
+Changing `client` clears the hook's visible result, error and busy state and
+cancels that client's pending work. Requests started for the replacement client
+keep their own loading state. The same client retains its last result while a
+new search loads. Callbacks retained for an earlier client stay scoped to that
+client and cannot update or cancel the current client's view.
+
 ```tsx
 import { useMemo } from 'react';
 import { SearchGateway } from '@alvarovillalbaa/search-gateway';
@@ -245,3 +251,7 @@ git diff --check
 ```
 
 Tests cover adapters with fabricated provider responses, routing, source semantics, policy boundaries, loopback HTTP, Python SDK calls, React state, key lifecycle, CLI and MCP. The demo uses mock data and no credentials. Live vendor credentials, account-specific entitlements, quotas, latency, and routing quality require your own integration checks. [Architecture](ARCHITECTURE.md) explains the boundaries; [release verification](RELEASE.md) records what was actually checked.
+
+The React client-replacement repair is available in source. Its
+[focused evidence](docs/results/2026/10-29/react-client-ownership.md) is separate
+from the existing v0.1.0 release artifacts, which were not rebuilt by this work.

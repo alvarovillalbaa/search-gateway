@@ -29,6 +29,15 @@ flowchart LR
 
 The main TypeScript export uses Web Fetch APIs only and has no Node imports. `/core` and `/server` contain Node capabilities and secret handling. `/react` is optional. Python is a dependency-free HTTP SDK with typed transport records and a worker-thread async facade. There is one provider engine, rather than duplicated vendor behavior across languages.
 
+Each React client gets a separate request/state owner. Rendered snapshots are
+tagged with that owner, so a replacement never shows the previous client's
+state. Effect cleanup invalidates and aborts only its captured owner. Requests
+started before passive setup keep their state for setup to publish. Generation
+and controller replacement happen before aborting the old transport, preserving
+newer work started synchronously by an abort listener. Returned promises remain
+caller-owned; stale callbacks may explicitly call their original client without
+publishing into the current view.
+
 ## Credentials and operation
 
 Gateway keys are opaque random bearer values. Local provisioning stores SHA-256 hashes and metadata in an atomic file protected by an exclusive writer lock. Revocation is read on every authenticated request. This is a single-process deployment model, not a managed account/billing platform. A gateway operator can replace authentication with a shared database implementation.
