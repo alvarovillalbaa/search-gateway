@@ -56,3 +56,12 @@ any report. Its correction matched the same retained outputs; no test rerun or
 product repair was needed. Source publication will use `[skip actions]` so it
 does not broaden this focused check into the existing full CI matrix. No
 workflow or provider configuration was changed.
+
+Source and evidence were published at `25ce9b8e733a334cdb35399bf116a1077f649266`. All 55 local/remote
+leaf identities (path, mode, type and blob SHA) matched an untruncated GitHub
+tree and its main ref; zero Actions runs were returned. The
+[publication receipt](react-client-ownership-publication.json) separates that
+source proof from package/runtime release acceptance. Five operation-owned
+baseline/raw-output files were removed after digest, identity and open-handle
+checks, preserving the published normalized evidence and all actual source.
+
