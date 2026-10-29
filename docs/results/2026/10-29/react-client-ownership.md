@@ -64,4 +64,3 @@ tree and its main ref; zero Actions runs were returned. The
 source proof from package/runtime release acceptance. Five operation-owned
 baseline/raw-output files were removed after digest, identity and open-handle
 checks, preserving the published normalized evidence and all actual source.
-
