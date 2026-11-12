@@ -1,11 +1,11 @@
 """Bounded release work in owned CI storage; never run locally."""
-import base64, hashlib, io, json, os, shutil, signal, subprocess, time, traceback, zipfile
+import base64, hashlib, io, json, os, re, shutil, signal, subprocess, tarfile, time, traceback, zipfile
 from pathlib import Path
 
 assert os.environ.get('GITHUB_ACTIONS') == 'true'
 assert os.environ['GITHUB_REPOSITORY'] == 'alvarovillalbaa/search-gateway'
 phase = os.environ['SG_PHASE']
-assert phase == 'lock'
+assert phase in ('lock','package')
 assert os.environ['GITHUB_REF'] == f'refs/heads/qa/search-sdk-patch-20261112-{phase}-1'
 source = Path.cwd()
 temporary = Path(os.environ['RUNNER_TEMP']).resolve()
@@ -67,18 +67,85 @@ try:
         target.write_bytes((source/relative).read_bytes()); target.chmod(file['mode'])
         assert digest(target.read_bytes())==file['sha256']; report['exports'].append(file)
     assert command(['node','--version']).decode().strip()=='v24.22.2'
-    before=json.loads((build/'package-lock.json').read_text())
-    command(['npm','install','--package-lock-only','--ignore-scripts','--no-audit','--no-fund'],timeout=150)
-    assert not (build/'node_modules').exists()
-    generated=(build/'package-lock.json').read_bytes(); after=json.loads(generated)
-    expected=json.loads(json.dumps(before)); expected['version']='0.1.1'
-    expected['packages']['']['version']='0.1.1'; expected['packages']['packages/search-gateway']['version']='0.1.1'
-    assert expected==after,'Lock changed beyond the three declared version fields'
-    (proof/'package-lock.json').write_bytes(generated)
-    report['lock']={'bytes':len(generated),'sha256':digest(generated),'externalGraphUnchanged':True,
-                    'changedFields':['version','packages..version','packages.packages/search-gateway.version']}
+    if phase=='lock':
+        before=json.loads((build/'package-lock.json').read_text())
+        command(['npm','install','--package-lock-only','--ignore-scripts','--no-audit','--no-fund'],timeout=150)
+        assert not (build/'node_modules').exists()
+        generated=(build/'package-lock.json').read_bytes(); after=json.loads(generated)
+        expected=json.loads(json.dumps(before)); expected['version']='0.1.1'
+        expected['packages']['']['version']='0.1.1'; expected['packages']['packages/search-gateway']['version']='0.1.1'
+        assert expected==after,'Lock changed beyond the three declared version fields'
+        (proof/'package-lock.json').write_bytes(generated)
+        report['lock']={'bytes':len(generated),'sha256':digest(generated),'externalGraphUnchanged':True,
+                        'changedFields':['version','packages..version','packages.packages/search-gateway.version']}
+    else:
+        command(['npm','ci','--ignore-scripts','--no-audit','--no-fund'],timeout=150)
+        command(['npm','run','build'])
+        old_api=json.loads((build/'openapi.json').read_text())
+        command(['node','scripts/generate-openapi.mjs'])
+        generated=(build/'openapi.json').read_bytes(); expected=json.loads(json.dumps(old_api)); expected['info']['version']='0.1.1'
+        assert json.loads(generated)==expected,'OpenAPI changed beyond its package version'
+        (proof/'openapi.json').write_bytes(generated)
+        packed=json.loads(command(['npm','pack','--workspace','@alvarovillalbaa/search-gateway','--ignore-scripts','--json','--pack-destination',str(proof)]))
+        assert len(packed)==1 and packed[0]['version']=='0.1.1'
+        archive=proof/packed[0]['filename']; assert archive.name=='alvarovillalbaa-search-gateway-0.1.1.tgz'
+        report['archive']={'file':archive.name,'bytes':archive.stat().st_size,'sha256':digest(archive.read_bytes()),'integrity':packed[0]['integrity'],'entries':[]}
+        with tarfile.open(archive,'r:gz') as tar:
+            for member in tar.getmembers():
+                assert member.isfile() and member.name.startswith('package/') and '..' not in Path(member.name).parts
+                data=tar.extractfile(member).read(); assert len(data)<=2*1024**2
+                relative=member.name.removeprefix('package/')
+                assert data==(build/'packages/search-gateway'/relative).read_bytes()
+                report['archive']['entries'].append({'path':relative,'bytes':len(data),'sha256':digest(data),'mode':member.mode})
+        assert len(report['archive']['entries'])<=100
+        consumer=root/'consumer'; consumer.mkdir()
+        manifest=json.loads((build/'packages/search-gateway/package.json').read_text())
+        workspace=json.loads((build/'package.json').read_text())
+        dependency='file:'+str(archive)
+        consumer_manifest={'name':'search-sdk-patch-consumer','private':True,'version':'0.0.0','type':'module','dependencies':{manifest['name']:dependency},'devDependencies':workspace['devDependencies']}
+        lock=json.loads((build/'package-lock.json').read_text())
+        lock.update(name=consumer_manifest['name'],version='0.0.0')
+        lock['packages']['']={k:consumer_manifest[k] for k in ('name','version','dependencies','devDependencies')}
+        del lock['packages']['packages/search-gateway']
+        lock['packages']['node_modules/'+manifest['name']]={k:manifest[k] for k in ('version','license','bin','engines','peerDependencies','peerDependenciesMeta')}
+        lock['packages']['node_modules/'+manifest['name']].update(resolved=dependency,integrity=packed[0]['integrity'])
+        (consumer/'package.json').write_text(json.dumps(consumer_manifest,indent=2)+'\n')
+        (consumer/'package-lock.json').write_text(json.dumps(lock,indent=2)+'\n')
+        shutil.copyfile(consumer/'package-lock.json',proof/'consumer-lock.json')
+        command(['npm','ci','--offline','--ignore-scripts','--no-audit','--no-fund'],cwd=consumer,timeout=100)
+        installed=consumer/'node_modules/@alvarovillalbaa/search-gateway'
+        assert not installed.is_symlink() and json.loads((installed/'package.json').read_text())['version']=='0.1.1'
+        for entry in report['archive']['entries']:
+            assert digest((installed/entry['path']).read_bytes())==entry['sha256']
+        help_output=command([str(consumer/'node_modules/.bin/search-gateway'),'--help'],cwd=consumer)
+        assert b'Search Gateway 0.1.1' in help_output
+        typed="""import {SearchGateway,createSearchTool,type SearchRequest} from '@alvarovillalbaa/search-gateway';
+import {createSearchGateway} from '@alvarovillalbaa/search-gateway/core';
+import {createGatewayServer} from '@alvarovillalbaa/search-gateway/server';
+import {useSearchGateway} from '@alvarovillalbaa/search-gateway/react';
+const request:SearchRequest={query:'authored'};
+const client=new SearchGateway({baseUrl:'http://127.0.0.1:8787'});
+const hook=()=>useSearchGateway(client); const tool=createSearchTool(client);
+void [request,hook,tool,createSearchGateway,createGatewayServer];
+"""
+        (consumer/'consumer.mts').write_text(typed); (proof/'consumer.mts').write_text(typed)
+        command(['node',str(build/'node_modules/typescript/bin/tsc'),'--strict','--noEmit','--target','ES2022','--module','NodeNext','--moduleResolution','NodeNext','--lib','ES2022,DOM','--skipLibCheck','consumer.mts'],cwd=consumer)
+        fixture=(build/'tests/unit/react-client-ownership.test.mjs').read_bytes()
+        (consumer/'ownership.test.mjs').write_bytes(fixture)
+        tap=command(['node','--test','--test-timeout=15000','--test-concurrency=1','--test-reporter=tap','ownership.test.mjs'],cwd=consumer,extra={'SEARCH_GATEWAY_REACT_HOOK_SOURCE':(installed/'dist/react.js').as_uri()})
+        text=tap.decode(); names=re.findall(r'^ok \d+ - (.+)$',text,re.M)
+        expected_names=re.findall(r"^test\('([^']+)'",fixture.decode(),re.M)
+        assert len(names)==10 and names==expected_names
+        assert re.search(r'^# tests 10$',text,re.M) and re.search(r'^# pass 10$',text,re.M)
+        for field in ('fail','cancelled','skipped','todo'): assert re.search(r'^# '+field+r' 0$',text,re.M)
+        report['react']={'cases':names,'fixtureSha256':digest(fixture),'installedHookSha256':digest((installed/'dist/react.js').read_bytes())}
+        shutil.copyfile(build/'scripts/sdk-patch-consumer.mjs',consumer/'consumer.mjs')
+        command(['node','consumer.mjs'],cwd=consumer,extra={'SG_CONSUMER_REPORT':str(proof/'consumer.json')})
+        native=json.loads((proof/'consumer.json').read_text())
+        assert native['success'] and native['serverClosed'] and native['mcp']['terminal']=={'code':0,'signal':None}
+        report['consumer']={'strictTypes':True,'offlineInstallation':True,'httpToolMcp':True,'archiveEntriesMatch':True}
     for file in report['exports']:
-        if file['path']!='package-lock.json': assert digest((build/file['path']).read_bytes())==file['sha256']
+        if file['path']!=('package-lock.json' if phase=='lock' else 'openapi.json'): assert digest((build/file['path']).read_bytes())==file['sha256']
     report['success']=True
 except BaseException as error:
     report['error']=repr(error); report['traceback']=traceback.format_exc()
