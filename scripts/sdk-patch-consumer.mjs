@@ -27,7 +27,7 @@ try {
   const gateway=createSearchGateway({providerKeys:{exa:'authored-provider-fixture'},adapters:[{
     id:'exa',description:'Authored package fixture',search:async request=>{
       report.requests.push(request.query);
-      return {sources:[{url:'https://example.invalid/archive',title:'Authored result',text:'Installed archive content'}]};
+      return {sources:[{url:'https://example.com/archive',title:'Authored result',text:'Installed archive content'}]};
     },
   }]});
   server=createGatewayServer({gateway,authenticate:key=>key==='authored-gateway-fixture'?{id:'fixture',name:'fixture',requestsPerMinute:60}:undefined});
@@ -37,6 +37,7 @@ try {
   assert.equal(report.health.status,200); assert.equal(report.health.body.version,'0.1.1');
   const client=new SearchGateway({baseUrl,apiKey:'authored-gateway-fixture'});
   report.client=await client.search({query:'archive-client',providers:['exa'],mode:'single',content:'text'});
+  assert.equal(report.client.sources.length,1);
   assert.equal(report.client.sources[0].content.text,'Installed archive content');
   report.tool=await createSearchTool(client).execute({query:'archive-tool',providers:['exa'],mode:'single',content:'text'});
   assert.equal(report.tool.sources[0].content.text,'Installed archive content');

@@ -5,7 +5,7 @@ from pathlib import Path
 assert os.environ.get('GITHUB_ACTIONS') == 'true'
 assert os.environ['GITHUB_REPOSITORY'] == 'alvarovillalbaa/search-gateway'
 phase = os.environ['SG_PHASE']
-assert phase in ('lock','package')
+assert phase in ('lock','package','consumer')
 assert os.environ['GITHUB_REF'] == f'refs/heads/qa/search-sdk-patch-20261112-{phase}-1'
 source = Path.cwd()
 temporary = Path(os.environ['RUNNER_TEMP']).resolve()
@@ -78,6 +78,45 @@ try:
         (proof/'package-lock.json').write_bytes(generated)
         report['lock']={'bytes':len(generated),'sha256':digest(generated),'externalGraphUnchanged':True,
                         'changedFields':['version','packages..version','packages.packages/search-gateway.version']}
+    elif phase=='consumer':
+        previous=source/'docs/results/2026/11-12/sdk-package-attempt-1.zip'
+        assert digest(previous.read_bytes())=='c0fe23cd48687650ae7751cb1ba5534945b7b5625a2ade92fbaac703544090d4'
+        with zipfile.ZipFile(previous) as packet:
+            carried=json.loads(packet.read('controller.json'))
+            assert carried['source']=='ea5c7d0c7a279805347228a7bde75fe6aeb5dea6'
+            assert carried['sourceBefore']==carried['sourceAfter'] and carried['indexBefore']==carried['indexAfter']
+            assert carried['scratchAbsent'] and len(carried['react']['cases'])==10
+            for cmd in carried['commands'][:9]:
+                assert cmd['exit']==0 and cmd['groupAbsent']
+                for label in ('stdout','stderr'):
+                    stream=cmd[label]; data=packet.read(stream['file'])
+                    assert stream['complete'] and len(data)==stream['bytes'] and digest(data)==stream['sha256']
+            for file in carried['exports']:
+                if file['path'].startswith('packages/search-gateway/') or file['path'] in ('package.json','package-lock.json','tests/unit/react-client-ownership.test.mjs'):
+                    assert digest((source/file['path']).read_bytes())==file['sha256']
+            archive=proof/carried['archive']['file']; archive.write_bytes(packet.read(archive.name))
+            assert digest(archive.read_bytes())==carried['archive']['sha256']
+            lock=json.loads(packet.read('consumer-lock.json'))
+        report['archive']=carried['archive']
+        report['carried']={'source':carried['source'],'run':43312123208,'strictTypes':True,'cliHelp':True,'react':carried['react'],'packetSha256':digest(previous.read_bytes())}
+        command(['npm','ci','--ignore-scripts','--no-audit','--no-fund'],timeout=150)
+        consumer=root/'consumer'; consumer.mkdir()
+        name='@alvarovillalbaa/search-gateway'; dependency='file:'+str(archive)
+        lock['packages']['']['dependencies'][name]=dependency
+        lock['packages']['node_modules/'+name]['resolved']=dependency
+        manifest=lock['packages']['']|{'private':True,'type':'module'}
+        (consumer/'package.json').write_text(json.dumps(manifest,indent=2)+'\n')
+        (consumer/'package-lock.json').write_text(json.dumps(lock,indent=2)+'\n')
+        shutil.copyfile(consumer/'package-lock.json',proof/'consumer-lock.json')
+        command(['npm','ci','--offline','--ignore-scripts','--no-audit','--no-fund'],cwd=consumer,timeout=100)
+        installed=consumer/'node_modules'/name
+        assert not installed.is_symlink()
+        for entry in report['archive']['entries']: assert digest((installed/entry['path']).read_bytes())==entry['sha256']
+        shutil.copyfile(build/'scripts/sdk-patch-consumer.mjs',consumer/'consumer.mjs')
+        command(['node','consumer.mjs'],cwd=consumer,extra={'SG_CONSUMER_REPORT':str(proof/'consumer.json')})
+        native=json.loads((proof/'consumer.json').read_text())
+        assert native['success'] and native['serverClosed'] and native['mcp']['terminal']=={'code':0,'signal':None}
+        report['consumer']={'offlineInstallation':True,'httpToolMcp':True,'archiveEntriesMatch':True}
     else:
         command(['npm','ci','--ignore-scripts','--no-audit','--no-fund'],timeout=150)
         command(['npm','run','build'])

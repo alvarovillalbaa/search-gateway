@@ -1,19 +1,19 @@
-name: Search SDK patch package
+name: Search SDK patch consumer
 on:
   workflow_dispatch:
 permissions:
   contents: write
   actions: write
 concurrency:
-  group: search-sdk-patch-package-20261112
+  group: search-sdk-patch-consumer-20261112
   cancel-in-progress: false
 jobs:
-  package:
+  consumer:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     env:
-      EXPECTED_SOURCE: ea5c7d0c7a279805347228a7bde75fe6aeb5dea6
-      SG_PHASE: package
+      EXPECTED_SOURCE: REPLACE_WITH_PREPARATION_SHA
+      SG_PHASE: consumer
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
@@ -22,28 +22,28 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: '24.22.2'
-      - name: Build and qualify installed SDK archive
+      - name: Qualify remaining native archive consumers
         env:
-          SG_PROOF: ${{ runner.temp }}/search-sdk-package-proof-${{ github.run_id }}
+          SG_PROOF: ${{ runner.temp }}/search-sdk-consumer-proof-${{ github.run_id }}
         run: python3 scripts/ci-sdk-patch.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: search-sdk-package-${{ github.run_id }}
-          path: ${{ runner.temp }}/search-sdk-package-proof-${{ github.run_id }}/
+          name: search-sdk-consumer-${{ github.run_id }}
+          path: ${{ runner.temp }}/search-sdk-consumer-proof-${{ github.run_id }}/
           if-no-files-found: error
           retention-days: 2
-      - name: Retire only package control and proof
+      - name: Retire only consumer control and proof
         if: always()
         env:
           GH_TOKEN: ${{ github.token }}
-          SG_PROOF: ${{ runner.temp }}/search-sdk-package-proof-${{ github.run_id }}
+          SG_PROOF: ${{ runner.temp }}/search-sdk-consumer-proof-${{ github.run_id }}
         run: |
           python3 - <<'PY'
           import json, os, shutil, subprocess
           from pathlib import Path
           repo='alvarovillalbaa/search-gateway'
-          branch='qa/search-sdk-patch-20261112-package-1'
+          branch='qa/search-sdk-patch-20261112-consumer-1'
           assert os.environ['GITHUB_REPOSITORY']==repo and os.environ['GITHUB_REF']=='refs/heads/'+branch
           def api(route, method='GET'):
               r=subprocess.run(['gh','api','--method',method,'repos/'+repo+'/'+route],capture_output=True,timeout=20)
@@ -52,14 +52,14 @@ jobs:
               return json.loads(r.stdout) if r.stdout else None
           run=api('actions/runs/'+os.environ['GITHUB_RUN_ID'])
           assert run['head_sha']==os.environ['GITHUB_SHA'] and run['head_branch']==branch
-          assert run['path']=='.github/workflows/sdk-patch-package.yml'
+          assert run['path']=='.github/workflows/sdk-patch-consumer.yml'
           assert api('git/ref/heads/'+branch)['object']['sha']==run['head_sha']
           api('actions/workflows/'+str(run['workflow_id'])+'/disable','PUT')
           assert api('actions/workflows/'+str(run['workflow_id']))['state']=='disabled_manually'
           api('git/refs/heads/'+branch,'DELETE')
           assert api('git/matching-refs/heads/'+branch)==[]
           proof=Path(os.environ['SG_PROOF']).resolve()
-          assert proof.parent==Path(os.environ['RUNNER_TEMP']).resolve() and proof.name=='search-sdk-package-proof-'+os.environ['GITHUB_RUN_ID']
+          assert proof.parent==Path(os.environ['RUNNER_TEMP']).resolve() and proof.name=='search-sdk-consumer-proof-'+os.environ['GITHUB_RUN_ID']
           if proof.exists():
               assert (proof/'controller.json').is_file()
               shutil.rmtree(proof)
