@@ -29,6 +29,16 @@ authorizes these finite free public-CI phases and the new GitHub release:
    provider call, account, model, paid service, production hosting or credential
    provisioning is included.
 
+Phase 3 may use the existing authenticated GitHub CLI locally for these small
+reviewed public files. The connector has no release creation/binary upload
+capability. This data-only publication is bounded to sixteen commands, 420
+seconds, 2 MiB per stream/download and the exact reviewed three files; it does
+not execute/install the SDK, start a server or override the failed local storage
+reserve. Preserve full command streams and original request JSON. Create a new
+draft release, verify uploaded server digests, publish it, then compare anonymous
+download bytes. A failure must retain its actual release/asset state for recovery;
+never recreate, overwrite or delete a pre-existing release to retry.
+
 Each changed phase gets one owned Ubuntu 24.04 / Node 24.22.2 job, maximum ten
 minutes, 420 seconds of commands, 2 GiB scratch cap, 4 GiB admission and 2 GiB
 reserve. Preserve HOME. Do not copy .git, dependency trees or historical evidence

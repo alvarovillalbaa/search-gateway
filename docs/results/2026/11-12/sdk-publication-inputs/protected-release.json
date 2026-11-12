@@ -1,0 +1,29 @@
+{
+  "id": 417160359,
+  "assets": [
+    {
+      "id": 655946006,
+      "name": "alvarovillalbaa-search-gateway-0.1.0.tgz",
+      "size": 35055,
+      "digest": "sha256:b2db58ea3d1af48a3b1a71c7c5a570901dc29747ec6a9952977dcc9a2e1d40ec"
+    },
+    {
+      "id": 655946050,
+      "name": "search_gateway_client-0.1.0-py3-none-any.whl",
+      "size": 7334,
+      "digest": "sha256:0dd50fc926be4af3a1d9f100103af6242b27059d75c5326afa6b4af9f6219e4b"
+    },
+    {
+      "id": 655946079,
+      "name": "search_gateway_client-0.1.0.tar.gz",
+      "size": 5652,
+      "digest": "sha256:db9733450c2ca99803fd13d4563c563aff29593213aa7a6e461ca644cf7d3582"
+    },
+    {
+      "id": 655946114,
+      "name": "SHA256SUMS",
+      "size": 319,
+      "digest": "sha256:e0da8df5894bf9ced5fe1f34b4cd1b61d638f4ef909e0f2935dc11bbf54abe25"
+    }
+  ]
+}

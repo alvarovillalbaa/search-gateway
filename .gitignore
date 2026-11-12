@@ -12,3 +12,4 @@ __pycache__/
 coverage/
 tests/tmp/
 .DS_Store
+docs/private/

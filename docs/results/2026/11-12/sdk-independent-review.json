@@ -1,0 +1,37 @@
+{
+  "reports": [
+    {
+      "phase": "package",
+      "source": "ea5c7d0c7a279805347228a7bde75fe6aeb5dea6",
+      "success": false,
+      "files": 65,
+      "commands": 10,
+      "elapsed": 4.949896411999994,
+      "scratch": 146032396,
+      "archive": {
+        "file": "alvarovillalbaa-search-gateway-0.1.1.tgz",
+        "bytes": 35904,
+        "sha256": "f83c7cdf462d4c27e27da288c87278228acf4cc727717f22a327a314fe735150",
+        "integrity": "sha512-4lKO0zLuIZCFeyDxCCa1woMVG8N+R+qTkD//LWZT2VKTm9aw4mPRrLOBX6f/7eRuK3fHbHI57R9u0DVaR+DLiQ=="
+      }
+    },
+    {
+      "phase": "consumer",
+      "source": "e9607c0f555fb5cd0896048e0983748160cfd0d4",
+      "success": true,
+      "files": 69,
+      "commands": 4,
+      "elapsed": 3.655240571,
+      "scratch": 145859987,
+      "archive": {
+        "file": "alvarovillalbaa-search-gateway-0.1.1.tgz",
+        "bytes": 35904,
+        "sha256": "f83c7cdf462d4c27e27da288c87278228acf4cc727717f22a327a314fe735150",
+        "integrity": "sha512-4lKO0zLuIZCFeyDxCCa1woMVG8N+R+qTkD//LWZT2VKTm9aw4mPRrLOBX6f/7eRuK3fHbHI57R9u0DVaR+DLiQ=="
+      }
+    }
+  ],
+  "qualified": true,
+  "archiveUnchanged": true,
+  "oldFailedOverallPreserved": true
+}

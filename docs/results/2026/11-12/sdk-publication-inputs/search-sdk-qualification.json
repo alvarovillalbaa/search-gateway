@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "package": "@alvarovillalbaa/search-gateway",
+  "version": "0.1.1",
+  "qualified": true,
+  "source": "ea5c7d0c7a279805347228a7bde75fe6aeb5dea6",
+  "archive": {
+    "file": "alvarovillalbaa-search-gateway-0.1.1.tgz",
+    "bytes": 35904,
+    "sha256": "f83c7cdf462d4c27e27da288c87278228acf4cc727717f22a327a314fe735150",
+    "integrity": "sha512-4lKO0zLuIZCFeyDxCCa1woMVG8N+R+qTkD//LWZT2VKTm9aw4mPRrLOBX6f/7eRuK3fHbHI57R9u0DVaR+DLiQ=="
+  },
+  "reactCases": [
+    "client replacement clears pending loading and permits a new search",
+    "client replacement hides prior data and errors on every render of the new client",
+    "late rejection from the old client cannot change new client data error or loading",
+    "a retained old cancel callback cannot stop the new client request",
+    "new client work started in a child layout effect survives old passive cleanup",
+    "StrictMode replay and unmount abort only their own pending requests",
+    "same client keeps settled data while only the newest overlapping search can publish",
+    "explicit cancellation preserves settled data rejects stale state and permits retry",
+    "synchronous abort reentry keeps the newest search and prevents superseded dispatch",
+    "synchronous abort reentry during cancel cannot clear a newly started search"
+  ],
+  "strictDeclarationEntryPoints": [
+    ".",
+    "/core",
+    "/server",
+    "/react"
+  ],
+  "nativeConsumers": [
+    "HTTP SDK",
+    "search tool",
+    "CLI help",
+    "MCP initialize/list/call"
+  ],
+  "buildRun": 43312123208,
+  "buildRunOverall": "failure",
+  "acceptedBuildCommands": 9,
+  "consumerRun": 43312677496,
+  "consumerRunOverall": "success",
+  "consumerSource": "e9607c0f555fb5cd0896048e0983748160cfd0d4",
+  "byteIdenticalArchive": true,
+  "limits": [
+    "Authored provider results; no live provider/model quality",
+    "React19/jsdom/Node24; no React18 or physical-browser proof",
+    "No npm or PyPI registry publication",
+    "Python0.1.0 remains at the previous release"
+  ]
+}
