@@ -1,0 +1,66 @@
+name: Search SDK patch publish
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: write
+concurrency:
+  group: search-sdk-patch-publish-20261112
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      EXPECTED_SOURCE: bd5e739a7def95bcced16b5e69265a54b83df680
+      SG_REMOTE_PUBLICATION: 'true'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ env.EXPECTED_SOURCE }}
+          persist-credentials: false
+      - name: Publish reviewed SDK archive bytes
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SG_PUBLISH_PROOF: ${{ runner.temp }}/search-sdk-publish-proof-${{ github.run_id }}
+        run: python3 scripts/publish-sdk-patch.py --publish-reviewed
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: search-sdk-publish-${{ github.run_id }}
+          path: ${{ runner.temp }}/search-sdk-publish-proof-${{ github.run_id }}/
+          if-no-files-found: error
+          retention-days: 2
+      - name: Retire only publish control and proof
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SG_PUBLISH_PROOF: ${{ runner.temp }}/search-sdk-publish-proof-${{ github.run_id }}
+        run: |
+          python3 - <<'PY'
+          import json, os, shutil, subprocess
+          from pathlib import Path
+          repo='alvarovillalbaa/search-gateway'
+          branch='qa/search-sdk-patch-20261112-publish-1'
+          assert os.environ['GITHUB_REPOSITORY']==repo and os.environ['GITHUB_REF']=='refs/heads/'+branch
+          def api(route, method='GET'):
+              r=subprocess.run(['gh','api','--method',method,'repos/'+repo+'/'+route],capture_output=True,timeout=20)
+              print(json.dumps({'route':route,'method':method,'exit':r.returncode,'stdout':r.stdout.decode(),'stderr':r.stderr.decode()}))
+              assert r.returncode==0
+              return json.loads(r.stdout) if r.stdout else None
+          run=api('actions/runs/'+os.environ['GITHUB_RUN_ID'])
+          assert run['head_sha']==os.environ['GITHUB_SHA'] and run['head_branch']==branch
+          assert run['path']=='.github/workflows/sdk-patch-publish.yml'
+          assert api('git/ref/heads/'+branch)['object']['sha']==run['head_sha']
+          api('actions/workflows/'+str(run['workflow_id'])+'/disable','PUT')
+          assert api('actions/workflows/'+str(run['workflow_id']))['state']=='disabled_manually'
+          api('git/refs/heads/'+branch,'DELETE')
+          assert api('git/matching-refs/heads/'+branch)==[]
+          proof=Path(os.environ['SG_PUBLISH_PROOF']).resolve()
+          assert proof.parent==Path(os.environ['RUNNER_TEMP']).resolve() and proof.name=='search-sdk-publish-proof-'+os.environ['GITHUB_RUN_ID']
+          if proof.exists():
+              assert (proof/'sdk-publication.json').is_file()
+              shutil.rmtree(proof)
+          assert not proof.exists()
+          print('SEARCH_SDK_CONTROL_RETIRED')
+          PY
