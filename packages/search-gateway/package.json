@@ -1,6 +1,6 @@
 {
   "name": "@alvarovillalbaa/search-gateway",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "One search interface for AI agents: provider routing, source retrieval, BYOK and a self-hosted gateway.",
   "type": "module",
   "license": "MIT",

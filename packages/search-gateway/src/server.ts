@@ -31,7 +31,7 @@ export function createGatewayServer(options: ServerOptions) {
       res.writeHead(status, {"Content-Type": "application/json; charset=utf-8", "Cache-Control": "no-store", "X-Content-Type-Options": "nosniff"}); res.end(JSON.stringify(data));
     };
     try {
-      if (req.url === "/health" && req.method === "GET") return send(200, {status: "ok", version: "0.1.0"});
+      if (req.url === "/health" && req.method === "GET") return send(200, {status: "ok", version: "0.1.1"});
       const origin = req.headers.origin;
       if (origin) {
         if (!options.allowedOrigins?.includes(origin)) throw new GatewayError("origin_not_allowed", "Origin not allowed", 403);

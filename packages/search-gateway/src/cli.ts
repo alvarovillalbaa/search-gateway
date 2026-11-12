@@ -9,7 +9,7 @@ import {createApiKey, listApiKeys, revokeApiKey, keyStoreAuthenticator, createGa
 import {GatewayError} from "./validation.js";
 import type {ProviderId, SearchService} from "./types.js";
 
-const help = `Search Gateway 0.1.0
+const help = `Search Gateway 0.1.1
 
   search-gateway key create [--name app] [--providers exa,tavily] [--rpm 60]
   search-gateway key list
@@ -51,7 +51,7 @@ async function mcp(service: SearchService) {
         case "initialize": {
           negotiated = true;
           const versions = ["2025-11-25", "2025-06-18", "2025-03-26", "2024-11-05"];
-          result = {protocolVersion: versions.includes(request.params?.protocolVersion) ? request.params.protocolVersion : versions[0], capabilities: {tools: {}}, serverInfo: {name: "search-gateway", version: "0.1.0"}}; break;
+          result = {protocolVersion: versions.includes(request.params?.protocolVersion) ? request.params.protocolVersion : versions[0], capabilities: {tools: {}}, serverInfo: {name: "search-gateway", version: "0.1.1"}}; break;
         }
         case "ping": result = {}; break;
         case "tools/list": result = {tools: tools.map(t => ({name: t.name, description: t.description, inputSchema: t.parameters}))}; break;

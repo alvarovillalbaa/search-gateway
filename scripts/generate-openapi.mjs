@@ -1,6 +1,7 @@
 // Generate the portable HTTP schema from the public provider registry and explicit wire fields.
-import {writeFile} from 'node:fs/promises';
+import {readFile, writeFile} from 'node:fs/promises';
 import {PROVIDERS} from '../packages/search-gateway/dist/core.js';
+const {version} = JSON.parse(await readFile(new URL('../packages/search-gateway/package.json', import.meta.url), 'utf8'));
 const ref = name => ({$ref: `#/components/schemas/${name}`});
 const array = items => ({type: 'array', items});
 const provider = {type: 'string', enum: [...PROVIDERS]};
@@ -25,5 +26,5 @@ const schemas = {
 const response = (description, schema) => ({description, content: {'application/json': {schema}}});
 const errors = Object.fromEntries([400, 401, 403, 413, 415, 429, 502, 503, 504].map(status => [status, response('Gateway error; see API.md for codes', ref('Error'))]));
 const post = (name, description) => ({summary: description, operationId: name.toLowerCase(), requestBody: {required: true, content: {'application/json': {schema: ref(`${name}Request`)}}}, responses: {'200': response('Successful operation, possibly with partial results and warnings', ref(`${name}Response`)), ...errors}});
-const api = {openapi: '3.1.0', info: {title: 'Search Gateway', version: '0.1.0', description: 'Self-hosted AI search. See API.md for policy semantics and provider-specific limits.', license: {name: 'MIT'}}, servers: [{url: 'http://127.0.0.1:8787'}], security: [{GatewayKey: []}], paths: {'/health': {get: {summary: 'Public health check', security: [], responses: {'200': response('Healthy process', object({status: {const: 'ok'}, version: {type: 'string'}}))}}}, '/v1/search': {post: post('Search', 'Search enabled providers')}, '/v1/contents': {post: post('Contents', 'Retrieve page text for public URLs')}, '/v1/providers': {get: {summary: 'List providers in the gateway key scope', responses: {'200': response('Provider catalog', object({providers: array(ref('ProviderInfo'))})), '401': errors['401']}}}}, components: {securitySchemes: {GatewayKey: {type: 'http', scheme: 'bearer'}}, schemas}};
+const api = {openapi: '3.1.0', info: {title: 'Search Gateway', version, description: 'Self-hosted AI search. See API.md for policy semantics and provider-specific limits.', license: {name: 'MIT'}}, servers: [{url: 'http://127.0.0.1:8787'}], security: [{GatewayKey: []}], paths: {'/health': {get: {summary: 'Public health check', security: [], responses: {'200': response('Healthy process', object({status: {const: 'ok'}, version: {type: 'string'}}))}}}, '/v1/search': {post: post('Search', 'Search enabled providers')}, '/v1/contents': {post: post('Contents', 'Retrieve page text for public URLs')}, '/v1/providers': {get: {summary: 'List providers in the gateway key scope', responses: {'200': response('Provider catalog', object({providers: array(ref('ProviderInfo'))})), '401': errors['401']}}}}, components: {securitySchemes: {GatewayKey: {type: 'http', scheme: 'bearer'}}, schemas}};
 await writeFile(new URL('../openapi.json', import.meta.url), `${JSON.stringify(api, null, 2)}\n`);

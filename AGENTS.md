@@ -14,3 +14,12 @@ Read README.md, then the closest package README before changing behavior. Preser
 - Run git diff --check before publication. Verify packed npm and Python artifacts, not only source imports.
 
 This project has no authority to change sibling repositories or provision hosted services.
+
+## Approved TypeScript patch delivery — 12 November 2026
+
+Standing owner approval covers `docs/proposals/sdk-patch-release.md`: isolated
+lock generation, separately frozen installed-archive qualification and a reviewed
+data-only GitHub publisher. Each temporary public job is capped at ten minutes;
+retire only its exact owned control/ref. Keep permanent CI, original source-test
+evidence, all v0.1.0 assets and Python 0.1.0 unchanged. No provider/model/paid or
+registry action and no local runtime after the failed Storage Guard preflight.

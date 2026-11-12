@@ -1,6 +1,6 @@
 # @alvarovillalbaa/search-gateway
 
-Last updated: 2026-10-19
+Last updated: 2026-11-12
 
 AI search across 13 providers, with source retrieval, Jev-first routing, OpenAI Decisions fallback, BYOK, a gateway server, CLI, React hook and MCP stdio.
 
@@ -24,8 +24,8 @@ For HTTP usage, create a key locally with `search-gateway key create`, set upstr
 
 The React hook resets visible state when its client changes and scopes pending
 requests and cancellation to that client. Same-client searches retain the last
-result while loading. The client-replacement repair is source-only; existing
-v0.1.0 release artifacts were not rebuilt. See the
+result while loading. Version 0.1.1 includes the client-replacement repair;
+the older v0.1.0 archive predates it. See the
 [focused evidence](https://github.com/alvarovillalbaa/search-gateway/blob/main/docs/results/2026/10-29/react-client-ownership.md).
 
 Full setup, Python and React examples, API details, provider capability table and verification boundaries are in the [repository documentation](https://github.com/alvarovillalbaa/search-gateway#readme).

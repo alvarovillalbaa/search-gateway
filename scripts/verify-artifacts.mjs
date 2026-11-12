@@ -1,5 +1,5 @@
 // T2: install the actual package archives in an isolated temporary consumer.
-import {mkdtemp, readdir, rm, writeFile} from 'node:fs/promises';
+import {mkdtemp, readFile, readdir, rm, writeFile} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join, resolve} from 'node:path';
 import {spawnSync} from 'node:child_process';
@@ -9,7 +9,8 @@ function run(command, args, cwd = temp) {
   if (result.status !== 0) throw new Error(`${command} failed\n${result.stdout}\n${result.stderr}`);
 }
 try {
-  const tar = (await readdir(repo)).find(x => x === 'alvarovillalbaa-search-gateway-0.1.0.tgz');
+  const {version} = JSON.parse(await readFile(join(repo, 'packages/search-gateway/package.json'), 'utf8'));
+  const tar = (await readdir(repo)).find(x => x === `alvarovillalbaa-search-gateway-${version}.tgz`);
   const wheel = (await readdir(join(repo, 'python/dist'))).find(x => x.endsWith('.whl'));
   if (!tar || !wheel) throw new Error('Build npm and Python artifacts first');
   await writeFile(join(temp, 'package.json'), '{"private":true,"type":"module"}\n');
