@@ -1,8 +1,16 @@
 # Release verification
 
-Last updated: 2026-10-19
+Last updated: 2026-11-12
 
-Version: 0.1.0. The initial delivery includes source, an npm tarball, and a Python wheel/source distribution. Registry publication and a managed hosted service are separate from GitHub delivery.
+Current TypeScript/Node/React SDK: **0.1.1**, including the React client-ownership
+repair. [Installed consumers](docs/results/2026/11-12/sdk-consumers.md) and
+[public delivery](docs/results/2026/11-12/sdk-publication.md) are qualified at their
+recorded sources, with original failures preserved. The unchanged Python SDK is
+**0.1.0** and retains its original wheel/source distribution. Registry publication
+and a managed hosted service remain separate from GitHub delivery.
+
+The following requirement matrix and broad local/hosted checks describe the
+historical **0.1.0** release; they were not rerun or relabeled as 0.1.1 evidence.
 
 ## Requirement coverage
 

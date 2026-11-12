@@ -1,6 +1,6 @@
 # Search Gateway
 
-Last updated: 2026-10-19
+Last updated: 2026-11-12
 
 One interface for AI search. Search across 13 providers, route with Jev and OpenAI Decisions, and retrieve source URLs and page content from TypeScript, Python, React, or agent tools.
 
@@ -10,10 +10,10 @@ Search Gateway is an MIT-licensed, self-hostable gateway and SDK. Run it in-proc
 
 ## Install
 
-Node.js 22+; Python 3.11+. The first release distributes ready-to-install artifacts through GitHub Releases. npm and PyPI registry publication is separate.
+Node.js 22+; Python 3.11+. The TypeScript SDK 0.1.1 and unchanged Python SDK 0.1.0 distribute ready-to-install artifacts through GitHub Releases. npm and PyPI registry publication is separate.
 
 ```bash
-npm install https://github.com/alvarovillalbaa/search-gateway/releases/download/v0.1.0/alvarovillalbaa-search-gateway-0.1.0.tgz
+npm install https://github.com/alvarovillalbaa/search-gateway/releases/download/v0.1.1/alvarovillalbaa-search-gateway-0.1.1.tgz
 pip install https://github.com/alvarovillalbaa/search-gateway/releases/download/v0.1.0/search_gateway_client-0.1.0-py3-none-any.whl
 ```
 
@@ -252,6 +252,11 @@ git diff --check
 
 Tests cover adapters with fabricated provider responses, routing, source semantics, policy boundaries, loopback HTTP, Python SDK calls, React state, key lifecycle, CLI and MCP. The demo uses mock data and no credentials. Live vendor credentials, account-specific entitlements, quotas, latency, and routing quality require your own integration checks. [Architecture](ARCHITECTURE.md) explains the boundaries; [release verification](RELEASE.md) records what was actually checked.
 
-The React client-replacement repair is available in source. Its
-[focused evidence](docs/results/2026/10-29/react-client-ownership.md) is separate
-from the existing v0.1.0 release artifacts, which were not rebuilt by this work.
+The React client-replacement repair is included in the public 0.1.1 TypeScript
+archive. [Installed-archive qualification](docs/results/2026/11-12/sdk-consumers.md)
+covers ten React lifecycle cases, strict declarations, actual local HTTP/tool
+calls and installed CLI/MCP behavior across preserved executions. The
+[public delivery receipt](docs/results/2026/11-12/sdk-publication.md) verifies
+all three anonymous downloads against qualified bytes. The older source-only
+receipt and failed first consumer fixture remain preserved; Python 0.1.0 and
+all four original release assets are unchanged.

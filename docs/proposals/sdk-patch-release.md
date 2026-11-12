@@ -2,6 +2,11 @@
 
 Last updated: 2026-11-12
 
+Status: **closed**. The [0.1.1 release](https://github.com/alvarovillalbaa/search-gateway/releases/tag/v0.1.1)
+delivers the qualified archive. [Publication evidence](../results/2026/11-12/sdk-publication.md)
+preserves both failures and distinguishes the accepted execution sources. Do
+not replay this scope unchanged. The original authorized boundary follows.
+
 The v0.1.0 archive predates the accepted React client-ownership repair. Publish a
 TypeScript/Node/React 0.1.1 patch archive, preserving the v0.1.0 release and all
 four original assets. Python remains 0.1.0; its implementation and existing

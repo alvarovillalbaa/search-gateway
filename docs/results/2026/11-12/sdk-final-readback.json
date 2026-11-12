@@ -1,0 +1,140 @@
+{
+  "observedAt": "2026-11-12T21:50:49.408Z",
+  "controls": {
+    "chunk_id": "ce6619",
+    "wall_time_seconds": 2.086133584,
+    "exit_code": 0,
+    "original_token_count": 86,
+    "output": "{\"id\":416603539,\"path\":\".github/workflows/sdk-patch-lock.yml\",\"state\":\"deleted\"}\n{\"id\":416607654,\"path\":\".github/workflows/sdk-patch-package.yml\",\"state\":\"deleted\"}\n{\"id\":416610575,\"path\":\".github/workflows/sdk-patch-consumer.yml\",\"state\":\"deleted\"}\n{\"id\":416616986,\"path\":\".github/workflows/sdk-patch-publish.yml\",\"state\":\"disabled_manually\"}\n"
+  },
+  "refs": [
+    [],
+    [],
+    [],
+    []
+  ],
+  "releases": [
+    {
+      "id": 443549088,
+      "tag": "v0.1.1",
+      "draft": false,
+      "assets": [
+        {
+          "id": 741215027,
+          "name": "alvarovillalbaa-search-gateway-0.1.1.tgz",
+          "size": 35904,
+          "digest": "sha256:f83c7cdf462d4c27e27da288c87278228acf4cc727717f22a327a314fe735150"
+        },
+        {
+          "id": 741215035,
+          "name": "search-sdk-qualification.json",
+          "size": 2019,
+          "digest": "sha256:69d5c00f219be65d3d3df705fc396130b19b86fc105ff05cbf4a5558259245ca"
+        },
+        {
+          "id": 741215029,
+          "name": "SHA256SUMS",
+          "size": 203,
+          "digest": "sha256:74cbaf7f77e8824fdb855a70cb018535969b633af8d0d5b6000ebd0b16b04b6c"
+        }
+      ]
+    },
+    {
+      "id": 417160359,
+      "tag": "v0.1.0",
+      "draft": false,
+      "assets": [
+        {
+          "id": 655946006,
+          "name": "alvarovillalbaa-search-gateway-0.1.0.tgz",
+          "size": 35055,
+          "digest": "sha256:b2db58ea3d1af48a3b1a71c7c5a570901dc29747ec6a9952977dcc9a2e1d40ec"
+        },
+        {
+          "id": 655946050,
+          "name": "search_gateway_client-0.1.0-py3-none-any.whl",
+          "size": 7334,
+          "digest": "sha256:0dd50fc926be4af3a1d9f100103af6242b27059d75c5326afa6b4af9f6219e4b"
+        },
+        {
+          "id": 655946079,
+          "name": "search_gateway_client-0.1.0.tar.gz",
+          "size": 5652,
+          "digest": "sha256:db9733450c2ca99803fd13d4563c563aff29593213aa7a6e461ca644cf7d3582"
+        },
+        {
+          "id": 655946114,
+          "name": "SHA256SUMS",
+          "size": 319,
+          "digest": "sha256:e0da8df5894bf9ced5fe1f34b4cd1b61d638f4ef909e0f2935dc11bbf54abe25"
+        }
+      ]
+    }
+  ],
+  "runs": [
+    {
+      "id": 43313884201,
+      "event": "workflow_dispatch",
+      "head_sha": "79d3e22f53e37a4f52aac84d8748193f5be51015",
+      "name": "Search SDK patch publish",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 43312677496,
+      "event": "workflow_dispatch",
+      "head_sha": "e91b2832e9848a7657c80aecee9c9504a80d3f92",
+      "name": "Search SDK patch consumer",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 43312123208,
+      "event": "workflow_dispatch",
+      "head_sha": "dd5333837057e2df5afc82821214dcafa76f11d2",
+      "name": "Search SDK patch package",
+      "status": "completed",
+      "conclusion": "failure"
+    },
+    {
+      "id": 43311272268,
+      "event": "workflow_dispatch",
+      "head_sha": "c73de1662f61785eef2ee557f753dcc16fa68cb0",
+      "name": "Search SDK patch lock",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 39237244242,
+      "event": "push",
+      "head_sha": "f891c1378ca20fb90e007d9dc9610aa4740dfc45",
+      "name": "Verify",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 39237131655,
+      "event": "push",
+      "head_sha": "f891c1378ca20fb90e007d9dc9610aa4740dfc45",
+      "name": "Verify",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 39237007344,
+      "event": "push",
+      "head_sha": "b08876dacf44958b19ec713dc7c83cd813e46b44",
+      "name": "Verify",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 39236824400,
+      "event": "push",
+      "head_sha": "ae82f8e2eb16645530b1b80adc73eeedae2e0d9a",
+      "name": "Verify",
+      "status": "completed",
+      "conclusion": "failure"
+    }
+  ]
+}

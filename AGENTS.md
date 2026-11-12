@@ -23,3 +23,12 @@ data-only GitHub publisher. Each temporary public job is capped at ten minutes;
 retire only its exact owned control/ref. Keep permanent CI, original source-test
 evidence, all v0.1.0 assets and Python 0.1.0 unchanged. No provider/model/paid or
 registry action and no local runtime after the failed Storage Guard preflight.
+
+The 0.1.1 archive is now public and this delivery scope is closed; see
+`docs/results/2026/11-12/sdk-publication.md`. Preserve the original overall-failed
+package run and local pre-write network failure. Installed React/declarations
+are carried from the first nine accepted archive commands; the corrected native
+consumer passed against identical bytes, without replaying those ten cases.
+All four temporary controls/owned refs are retired. Keep only permanent CI and
+inactive examples in main; do not rebuild, replay, republish or revisit registry
+credentials as routine follow-up. Python0.1.0 and original release assets remain.

@@ -43,5 +43,6 @@ the actual MCP output. No runner-disposal/host-wide absence claim is made.
 
 This qualifies the compiled patch with React19.3.1/jsdom30.1.3/Node24.22.2.
 React18, physical browser behavior, live provider account/quality/cost, registry
-publication and a managed hosted gateway remain separate. Public archive
-delivery is the next boundary. Storage Guard still forbids local app execution.
+publication and a managed hosted gateway remain separate. [Public archive
+delivery](sdk-publication.md) subsequently passed against these exact bytes.
+Storage Guard still forbids local app execution.
